@@ -1,0 +1,20 @@
+//
+//  ViewController.swift
+//  StockPhotos
+//
+//  Created by ONUR KILIC on 2.08.2019.
+//  Copyright © 2019 Onur Kilic. All rights reserved.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+
+
+}
+
