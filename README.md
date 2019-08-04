@@ -64,6 +64,9 @@ private func fetchNextPage(_ completion: @escaping (_ fetchedItemCount: Int, _ e
 
 Additionally, in the future, can be added more automated tests and can be added search field for stock photos.
 
+Author
+-----
+
 Please, check my public profiles and my resume on https://klconur.github.io/
 
 Some iOS applications developed and/or contributed by the author,
