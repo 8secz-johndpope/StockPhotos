@@ -1,3 +1,5 @@
+[![Platform](https://img.shields.io/cocoapods/p/SwiftIcons.svg)](http://cocoadocs.org/docsets/SwiftIcons) ![Swift](https://img.shields.io/badge/%20in-swift%204.2-orange.svg)
+
 # StockPhotos
 
 
