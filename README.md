@@ -69,7 +69,7 @@ private func fetchNextPage(_ completion: @escaping (_ fetchedItemCount: Int, _ e
 
 ```
 
-Additionally, in the future, can be added more automated tests and can be added search field for stock photos.
+Additionally, more automated tests and search field for stock photos can be added to the project in the future.
 
 Author
 -----
