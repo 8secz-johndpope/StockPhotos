@@ -11,7 +11,7 @@ import Alamofire
 
 class ApiClient {
         
-    func fetchImages(_ page: Int, _ perPage: Int, _ completion: @escaping (_ data: Welcome?, _ error: Error?) -> Void) {
+    func fetchImages(_ page: Int, _ perPage: Int, _ completion: @escaping (_ data: PhotoData?, _ error: Error?) -> Void) {
         let parameters: Parameters = ["page": page, "per_page": perPage]
         let urlString = "\(Constants.Endpoint.shutterstockApi)images/search"
         
@@ -26,10 +26,10 @@ class ApiClient {
         
     }
     
-    private func setResult(_ response: DefaultDataResponse, _ completion: @escaping (_ data: Welcome?, _ error: Error?) -> Void) {
+    private func setResult(_ response: DefaultDataResponse, _ completion: @escaping (_ data: PhotoData?, _ error: Error?) -> Void) {
         do {
             let decoder = JSONDecoder()
-            let photoData = try decoder.decode(Welcome.self, from: response.data!)
+            let photoData = try decoder.decode(PhotoData.self, from: response.data!)
             completion(photoData, response.error)
         } catch {
             completion(nil, error)

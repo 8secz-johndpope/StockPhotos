@@ -5,7 +5,7 @@ import Foundation
 final class ListViewModel {
     
     var apiClient: ApiClient
-    var photoData: Welcome?
+    var photoData: PhotoData?
     
     required init() {
         apiClient = ApiClient()

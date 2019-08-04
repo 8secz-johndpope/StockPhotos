@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Welcome: Codable {
+struct PhotoData: Codable {
     let page, perPage, totalCount: Int
     let searchID: String
     var data: [Datum]
