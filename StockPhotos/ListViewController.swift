@@ -10,7 +10,6 @@ import UIKit
 
 class ListViewController: UICollectionViewController {
     
-    var isNextPageLoading = false
     private let refreshControl = UIRefreshControl()
 
     lazy var viewModel : ListViewModel = {
@@ -48,36 +47,8 @@ class ListViewController: UICollectionViewController {
 extension ListViewController {
  
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let height = scrollView.frame.size.height
-        let contentYoffset = scrollView.contentOffset.y
-        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
-        if viewModel.getDataCount() > 0 &&
-            !isNextPageLoading &&
-            distanceFromBottom < height + 100 {
-            isNextPageLoading = true
-            viewModel.fetchNextPage() { (fetchedItemCount, error) in
-                if (error == nil) {
-                    self.addNewItems(fetchedItemCount)
-                } else {
-                    self.isNextPageLoading = false
-                }
-            }
-        }
+        viewModel.checkNextPages(scrollView, collectionView)
     }
-    
-    private func addNewItems(_ fetchedItemCount: Int) {
-        let count = viewModel.getDataCount()
-        let firstIndex = count - fetchedItemCount
-        let lastIndex = firstIndex + (fetchedItemCount - 1)
-        let indexPaths = Array(firstIndex...lastIndex).map { IndexPath(item: $0, section: 0) }
-        
-        collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertItems(at: indexPaths)
-        }, completion: { (finished) -> Void in
-            self.isNextPageLoading = false
-        });
-    }
-    
 }
 
 // MARK: - UICollectionViewDataSource
