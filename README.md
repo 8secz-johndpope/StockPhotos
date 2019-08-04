@@ -34,6 +34,7 @@ Architecture
 ---------
 Model-View-ViewModel
 
+TODO
 -------
 ListViewModel.swift has (var photoData: PhotoData?) variable. The code fetches and appends new datas while scrolling to the variable. This may cause a memory leak when API data grows, although it does not currently cause a problem. In the future, the data would be managed differently.
 
