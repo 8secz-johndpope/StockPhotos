@@ -13,25 +13,33 @@ class PhotoViewCell: UICollectionViewCell {
     
     let downloadManager = SDWebImageDownloader()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    let containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 10
+        return view
+    }()
     
-    var favoriteButtonAction : (() -> ())?
+    let photoView: UIImageView = {
+        let imgView = UIImageView()
+        imgView.contentMode = .scaleAspectFill
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.clipsToBounds = true
+        return imgView
+    }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        //favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
-    }
+    let loadingIndicator: UIActivityIndicatorView = {
+        let loadingIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return loadingIndicator
+    }()
     
-    func favoriteButtonTapped(_ sender: UIButton){
-        favoriteButtonAction?()
-    }
-    
+    var requestCancelled = false
     var thumb: Thumb? {
         didSet {
-            if let _thumb = thumb {
-                loadImage(_thumb)
+            if let thumb = thumb {
+                loadImage(thumb)
             }
         }
     }
@@ -39,6 +47,7 @@ class PhotoViewCell: UICollectionViewCell {
     func updateAppearance() {
         addViews()
         setConstraints()
+        requestCancelled = false
         photoView.image = nil
         loadingIndicator.alpha = 1
         loadingIndicator.startAnimating()
@@ -51,30 +60,27 @@ class PhotoViewCell: UICollectionViewCell {
         downloadManager.downloadImage(with: url, options: SDWebImageDownloaderOptions.allowInvalidSSLCertificates, progress: { (d, d2, d3) in
             
         }, completed: { (image, data, error, status) in
-            self.updateContent(image)
+            self.updateContent(image, error)
         })
     }
     
     func cancelOperations() {
+        requestCancelled = true
         downloadManager.cancelAllDownloads()
     }
     
-    private func updateContent(_ image: UIImage?, animated: Bool = true) {
+    private func updateContent(_ image: UIImage?, _ error: Error?) {
         DispatchQueue.main.async {
-            if animated {
-                UIView.animate(withDuration: 0.5) {
-                    self.displayPhoto(image)
-                }
-            } else {
-                self.displayPhoto(image)
+            UIView.animate(withDuration: 0.5) {
+                self.displayPhoto(image, error)
             }
         }
     }
     
-    private func displayPhoto(_ image: UIImage?) {
-        if let _image = image {
-            showFetchedScreen(_image)
-        } else {
+    private func displayPhoto(_ image: UIImage?, _ error: Error?) {
+        if let image = image {
+            showFetchedScreen(image)
+        } else if error != nil && !requestCancelled {
             showErrorScreen()
         }
     }
@@ -88,36 +94,18 @@ class PhotoViewCell: UICollectionViewCell {
     }
     
     private func showErrorScreen() {
-        
+        photoView.image = UIImage(named: "no_internet")
+        loadingIndicator.alpha = 0
+        loadingIndicator.stopAnimating()
+        backgroundColor = #colorLiteral(red: 0.9338415265, green: 0.9338632822, blue: 0.9338515401, alpha: 1)
+        layer.cornerRadius = 10
     }
     
-    func addViews() {
+    private func addViews() {
         containerView.addSubview(photoView)
         containerView.addSubview(loadingIndicator)
         self.contentView.addSubview(containerView)
     }
-    
-    let containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 10
-        return view
-    }()
-    
-    let photoView: UIImageView = {
-        let imgView = UIImageView(image: UIImage(named: "placeholder"))
-        imgView.contentMode = .scaleAspectFill
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        imgView.clipsToBounds = true
-        return imgView
-    }()
-    
-    let loadingIndicator: UIActivityIndicatorView = {
-        let loadingIndicator = UIActivityIndicatorView(style: .whiteLarge)
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return loadingIndicator
-    }()
     
 }
 

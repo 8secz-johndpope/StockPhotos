@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="-721" y="27"/>
         </scene>
-        <!--Photo View Controller-->
+        <!--StockPhotos-->
         <scene sceneID="2Lu-4D-zbk">
             <objects>
-                <collectionViewController id="cWd-vP-kYp" customClass="PhotoViewController" customModule="StockPhotos" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="cWd-vP-kYp" customClass="ListViewController" customModule="StockPhotos" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="KwV-BD-VYb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,7 +54,7 @@
                             <outlet property="delegate" destination="cWd-vP-kYp" id="Uie-ae-ce7"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="K3u-4c-aiW"/>
+                    <navigationItem key="navigationItem" title="StockPhotos" id="K3u-4c-aiW"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rov-jN-Oqo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -19,11 +19,22 @@ class StockPhotosTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testDatastore() {
+        let expectation = XCTestExpectation(description: "Fetch photo data from shutterstock")
+        ListViewModel().fetchInitialPhotos() { error in
+            XCTAssertNil(error)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
     }
 
+    func testDataStoreClearFunc() {
+        let listViewModel = ListViewModel()
+        listViewModel.clear()
+        let count = listViewModel.getDataCount()
+        XCTAssertEqual(count, 0)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

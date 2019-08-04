@@ -4,7 +4,6 @@ import Foundation
 
 final class ListViewModel {
     
-    static let sharedInstance = ListViewModel()
     var apiClient: ApiClient
     var photoData: Welcome?
     

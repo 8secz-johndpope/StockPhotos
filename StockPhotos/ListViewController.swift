@@ -8,25 +8,34 @@
 
 import UIKit
 
-class PhotoViewController: UICollectionViewController {
+class ListViewController: UICollectionViewController {
     
     var isNextPageLoading = false
     private let refreshControl = UIRefreshControl()
 
+    lazy var viewModel : ListViewModel = {
+        let viewModel = ListViewModel()
+        return viewModel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.addSubview(refreshControl)
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-        DataStore.sharedInstance.fetchInitialPhotos() { error in
+        addRefreshControl()
+        viewModel.fetchInitialPhotos() { error in
             if (error == nil) {
                 self.collectionView.reloadData()
             }
         }
     }
 
+    private func addRefreshControl() {
+        collectionView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+    }
+    
     @objc private func refreshData(_ sender: Any) {
-        DataStore.sharedInstance.clear()
-        DataStore.sharedInstance.fetchInitialPhotos() { error in
+        viewModel.clear()
+        viewModel.fetchInitialPhotos() { error in
             if (error == nil) {
                 self.collectionView.reloadData()
             }
@@ -36,17 +45,17 @@ class PhotoViewController: UICollectionViewController {
 }
 
 //MARK: Pagination
-extension PhotoViewController {
+extension ListViewController {
  
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let height = scrollView.frame.size.height
         let contentYoffset = scrollView.contentOffset.y
         let distanceFromBottom = scrollView.contentSize.height - contentYoffset
-        if DataStore.sharedInstance.getDataCount() > 0 &&
+        if viewModel.getDataCount() > 0 &&
             !isNextPageLoading &&
             distanceFromBottom < height + 100 {
             isNextPageLoading = true
-            DataStore.sharedInstance.fetchNextPage() { (fetchedItemCount, error) in
+            viewModel.fetchNextPage() { (fetchedItemCount, error) in
                 if (error == nil) {
                     self.addNewItems(fetchedItemCount)
                 } else {
@@ -57,7 +66,7 @@ extension PhotoViewController {
     }
     
     private func addNewItems(_ fetchedItemCount: Int) {
-        let count = DataStore.sharedInstance.getDataCount()
+        let count = viewModel.getDataCount()
         let firstIndex = count - fetchedItemCount
         let lastIndex = firstIndex + (fetchedItemCount - 1)
         let indexPaths = Array(firstIndex...lastIndex).map { IndexPath(item: $0, section: 0) }
@@ -72,11 +81,11 @@ extension PhotoViewController {
 }
 
 // MARK: - UICollectionViewDataSource
-extension PhotoViewController {
+extension ListViewController {
     
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return DataStore.sharedInstance.getDataCount()
+        return viewModel.getDataCount()
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -89,13 +98,13 @@ extension PhotoViewController {
     }
 }
 
-
 // MARK: - UICollectionViewDelegate
-extension PhotoViewController {
+extension ListViewController {
+    
     override func collectionView(_ collectionView: UICollectionView,
                                  willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? PhotoViewCell else { return }
-        cell.thumb = DataStore.sharedInstance.getPhoto(indexPath.row)
+        cell.thumb = viewModel.getPhoto(indexPath.row)
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -103,4 +112,17 @@ extension PhotoViewController {
         guard let cell = cell as? PhotoViewCell else { return }
         cell.cancelOperations()
     }
+
+    override func collectionView(_ collectionView: UICollectionView,
+                                 didSelectItemAt indexPath: IndexPath) {
+        let thumb = viewModel.getPhoto(indexPath.row)
+        if let thumb = thumb {
+        let viewController = PhotoViewController()
+            viewController.photoUrl = thumb.url
+            if let navigator = navigationController {
+                navigator.pushViewController(viewController, animated: true)
+            }
+        }
+    }
+    
 }
