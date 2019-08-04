@@ -12,6 +12,12 @@ The application displays the photos in UICollectionView using the Shutterstock p
 -------
 The solution focuses on mobile (iOS platform). The solution is using Shutterstock API for back-end part.
 
+Third Party Libraries
+-------
+* [Alamofire](https://github.com/Alamofire/Alamofire) ![](https://img.shields.io/github/stars/Alamofire/alamofire.svg?style=social) - Alamofire - Elegant HTTP Networking in Swift.
+* [SDWebImage](https://github.com/SDWebImage/SDWebImage) ![](https://img.shields.io/github/stars/SDWebImage/sdwebimage.svg?style=social) - SDWebImage - Asynchronous image downloader with cache support as a UIImageView category.
+
+
 -------
 ListViewModel.swift has (var photoData: PhotoData?) variable. The code fetches and appends new datas while scrolling to the variable. This may cause a memory leak when API data grows, although it does not currently cause a problem. In the future, the data would be managed differently.
 
