@@ -30,6 +30,38 @@ Model-View-ViewModel
 -------
 ListViewModel.swift has (var photoData: PhotoData?) variable. The code fetches and appends new datas while scrolling to the variable. This may cause a memory leak when API data grows, although it does not currently cause a problem. In the future, the data would be managed differently.
 
+```Swift
+
+var photoData: PhotoData?
+
+func fetchInitialPhotos(_ completion: @escaping (Error?) -> Void) {
+        apiClient.fetchImages(1, 30) {(_ data, _ error) in
+            if (error == nil) {
+                self.photoData = data
+            }
+            completion(error)
+        }
+}
+    
+private func fetchNextPage(_ completion: @escaping (_ fetchedItemCount: Int, _ error: Error?) -> Void) {
+    if let photoData = photoData {
+        if (photoData.data.count >= photoData.totalCount) {
+            completion(0, nil)
+            return
+        }
+        let itemCount = 15
+        let initialPageNumber = photoData.page * photoData.data.count / itemCount
+        apiClient.fetchImages(initialPageNumber + 1, itemCount) {(_ data, _ error) in
+            if (error == nil) {
+                self.photoData?.data.append(contentsOf: data!.data)
+            }
+            completion(itemCount, error)
+        }
+    }
+}
+
+```
+
 Additionally, in the future, can be added more automated tests and can be added search field for stock photos.
 
 Please, check my public profiles and my resume on https://klconur.github.io/
