@@ -20,8 +20,15 @@ The solution focuses on mobile (iOS platform). The solution is using Shutterstoc
 Third Party Libraries
 -------
 * [Alamofire](https://github.com/Alamofire/Alamofire) ![](https://img.shields.io/github/stars/Alamofire/alamofire.svg?style=social) - Alamofire - Elegant HTTP Networking in Swift.
+
+Alamofire is a Swift-based HTTP networking library for iOS and macOS. It provides an elegant interface on top of Apple’s Foundation networking stack that simplifies a number of common networking tasks.
+
+
 * [SDWebImage](https://github.com/SDWebImage/SDWebImage) ![](https://img.shields.io/github/stars/SDWebImage/sdwebimage.svg?style=social) - SDWebImage - Asynchronous image downloader with cache support as a UIImageView category.
 
+SDWebImage is an asynchronous image downloader with caching. It has handy UIKit categories to do things such as set a UIImageView image to an URL. While networking has become a little bit easier in Cocoa over the years, the basic task of setting an image view to an image using an URL hasn’t improved much. SDWebImage helps ease a lot of pain, so that’s why it’s so popular with iOS app developers.
+
+[raywenderlich.com - Top 10 Libraries for iOS Developers](https://www.raywenderlich.com/259-top-10-libraries-for-ios-developers)
 
 Architecture
 ---------
