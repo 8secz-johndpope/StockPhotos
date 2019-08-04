@@ -69,6 +69,8 @@ Author
 
 Please, check my public profiles and my resume on https://klconur.github.io/
 
+
+
 Some iOS applications developed and/or contributed by the author,
 
 * https://apps.apple.com/tr/app/freepark-park-sistemleri/id1253835634?l=tr
