@@ -10,9 +10,12 @@ import XCTest
 
 class StockPhotosUITests: XCTestCase {
 
+    var app: XCUIApplication!
+
     override func setUp() {
         continueAfterFailure = false
-        XCUIApplication().launch()
+        app = XCUIApplication()
+        app.launch()
     }
 
     override func tearDown() {
@@ -20,9 +23,8 @@ class StockPhotosUITests: XCTestCase {
     }
 
     func testCellClick() {
-        let app = XCUIApplication()
-        app.launch()
         app.collectionViews.cells.element(boundBy:0).tap()
+        XCTAssert(app.buttons["StockPhotos"].exists)
     }
 
 }
