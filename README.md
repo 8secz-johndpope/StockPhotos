@@ -14,6 +14,7 @@ Solution
 -------
 The application displays the photos in UICollectionView using the Shutterstock photo API and opens the user-selected photo on a new screen.
 
+Platforms
 -------
 The solution focuses on mobile (iOS platform). The solution is using Shutterstock API for back-end part.
 
