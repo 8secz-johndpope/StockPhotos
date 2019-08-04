@@ -1,6 +1,9 @@
 # StockPhotos
 
 
+![](app_video.gif)
+
+
 Problem
 ------
 The application was developed because users want to view and select easily stock photos via Shutterstock.
