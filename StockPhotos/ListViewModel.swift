@@ -2,14 +2,18 @@
 
 import Foundation
 
-final class DataStore {
+final class ListViewModel {
     
-    static let sharedInstance = DataStore()
+    static let sharedInstance = ListViewModel()
     var apiClient: ApiClient
     var photoData: Welcome?
     
     required init() {
         apiClient = ApiClient()
+    }
+    
+    func clear() {
+        photoData = nil
     }
     
     func fetchInitialPhotos(_ completion: @escaping (Error?) -> Void) {
@@ -18,22 +22,6 @@ final class DataStore {
                 self.photoData = data
             }
             completion(error)
-        }
-    }
-    
-    func willDisplayItem(_ index: Int) {
-        
-    }
-    
-    /* TODO: NOT IMPLEMENTED */
-    func fetchPreviousPage(_ completion: @escaping (Error?) -> Void) {
-        if let photoData = photoData {
-            apiClient.fetchImages(photoData.page - 1, 15) {(_ data, _ error) in
-                if (error == nil) {
-                    self.photoData = data
-                }
-                completion(error)
-            }
         }
     }
     
@@ -54,7 +42,7 @@ final class DataStore {
         }
     }
     
-    func getPhotoCount() -> Int {
+    func getDataCount() -> Int {
         if let photoData = photoData {
             return photoData.data.count * photoData.page
         }
