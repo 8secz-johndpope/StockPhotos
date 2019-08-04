@@ -21,6 +21,10 @@ Third Party Libraries
 * [SDWebImage](https://github.com/SDWebImage/SDWebImage) ![](https://img.shields.io/github/stars/SDWebImage/sdwebimage.svg?style=social) - SDWebImage - Asynchronous image downloader with cache support as a UIImageView category.
 
 
+Architecture
+---------
+Model-View-ViewModel
+
 -------
 ListViewModel.swift has (var photoData: PhotoData?) variable. The code fetches and appends new datas while scrolling to the variable. This may cause a memory leak when API data grows, although it does not currently cause a problem. In the future, the data would be managed differently.
 
